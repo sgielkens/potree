@@ -1,8 +1,8 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(global = global || self, factory(global.Potree = {}));
-}(this, (function (exports) { 'use strict';
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.Potree = {}));
+})(this, (function (exports) { 'use strict';
 
 	/**
 	 * @author mrdoob / http://mrdoob.com/ https://github.com/mrdoob/eventdispatcher.js
@@ -37,7 +37,7 @@
 
 
 
-	class EventDispatcher{
+	class EventDispatcher$1{
 
 		constructor(){
 			this._listeners = {};
@@ -103,7 +103,7 @@
 
 	}
 
-	class Action extends EventDispatcher {
+	class Action extends EventDispatcher$1 {
 		constructor (args = {}) {
 			super();
 
@@ -185,7 +185,7 @@
 
 	// threejs.org/license
 	const REVISION = '124';
-	const MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2, ROTATE: 0, DOLLY: 1, PAN: 2 };
+	const MOUSE$1 = { LEFT: 0, MIDDLE: 1, RIGHT: 2, ROTATE: 0, DOLLY: 1, PAN: 2 };
 	const TOUCH = { ROTATE: 0, PAN: 1, DOLLY_PAN: 2, DOLLY_ROTATE: 3 };
 	const CullFaceNone = 0;
 	const CullFaceBack = 1;
@@ -389,9 +389,9 @@
 	 * https://github.com/mrdoob/eventdispatcher.js/
 	 */
 
-	function EventDispatcher$1() {}
+	function EventDispatcher() {}
 
-	Object.assign( EventDispatcher$1.prototype, {
+	Object.assign( EventDispatcher.prototype, {
 
 		addEventListener: function ( type, listener ) {
 
@@ -1613,7 +1613,7 @@
 	Texture.DEFAULT_IMAGE = undefined;
 	Texture.DEFAULT_MAPPING = UVMapping;
 
-	Texture.prototype = Object.assign( Object.create( EventDispatcher$1.prototype ), {
+	Texture.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
 
 		constructor: Texture,
 
@@ -2589,7 +2589,7 @@
 
 	}
 
-	WebGLRenderTarget.prototype = Object.assign( Object.create( EventDispatcher$1.prototype ), {
+	WebGLRenderTarget.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
 
 		constructor: WebGLRenderTarget,
 
@@ -6606,7 +6606,7 @@
 	Object3D.DefaultUp = new Vector3( 0, 1, 0 );
 	Object3D.DefaultMatrixAutoUpdate = true;
 
-	Object3D.prototype = Object.assign( Object.create( EventDispatcher$1.prototype ), {
+	Object3D.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
 
 		constructor: Object3D,
 
@@ -6795,6 +6795,8 @@
 
 		add: function ( object ) {
 
+			//console.log( "TEST object: ", object );
+
 			if ( arguments.length > 1 ) {
 
 				for ( let i = 0; i < arguments.length; i ++ ) {
@@ -6828,7 +6830,8 @@
 				object.dispatchEvent( _addedEvent );
 
 			} else {
-
+				
+				//console.log( "Fout object: ", object );
 				console.error( 'THREE.Object3D.add: object not an instance of THREE.Object3D.', object );
 
 			}
@@ -8667,7 +8670,7 @@
 
 	}
 
-	Material.prototype = Object.assign( Object.create( EventDispatcher$1.prototype ), {
+	Material.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
 
 		constructor: Material,
 
@@ -10000,7 +10003,7 @@
 
 	}
 
-	BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher$1.prototype ), {
+	BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
 
 		constructor: BufferGeometry,
 
@@ -22794,7 +22797,7 @@
 
 	}
 
-	Object.assign( WebXRManager.prototype, EventDispatcher$1.prototype );
+	Object.assign( WebXRManager.prototype, EventDispatcher.prototype );
 
 	function WebGLMaterials( properties ) {
 
@@ -25538,7 +25541,7 @@
 
 	}
 
-	class Scene extends Object3D {
+	class Scene$1 extends Object3D {
 
 		constructor() {
 
@@ -27434,7 +27437,7 @@
 	const _sphere$3 = new Sphere();
 	const _position$1 = new Vector3();
 
-	function Points( geometry = new BufferGeometry(), material = new PointsMaterial() ) {
+	function Points$1( geometry = new BufferGeometry(), material = new PointsMaterial() ) {
 
 		Object3D.call( this );
 
@@ -27447,9 +27450,9 @@
 
 	}
 
-	Points.prototype = Object.assign( Object.create( Object3D.prototype ), {
+	Points$1.prototype = Object.assign( Object.create( Object3D.prototype ), {
 
-		constructor: Points,
+		constructor: Points$1,
 
 		isPoints: true,
 
@@ -27773,7 +27776,7 @@
 
 	}
 
-	Geometry.prototype = Object.assign( Object.create( EventDispatcher$1.prototype ), {
+	Geometry.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
 
 		constructor: Geometry,
 
@@ -30676,10 +30679,10 @@
 	// check if two segments intersect
 	function intersects( p1, q1, p2, q2 ) {
 
-		const o1 = sign( area( p1, q1, p2 ) );
-		const o2 = sign( area( p1, q1, q2 ) );
-		const o3 = sign( area( p2, q2, p1 ) );
-		const o4 = sign( area( p2, q2, q1 ) );
+		const o1 = sign$1( area( p1, q1, p2 ) );
+		const o2 = sign$1( area( p1, q1, q2 ) );
+		const o3 = sign$1( area( p2, q2, p1 ) );
+		const o4 = sign$1( area( p2, q2, q1 ) );
 
 		if ( o1 !== o2 && o3 !== o4 ) return true; // general case
 
@@ -30699,7 +30702,7 @@
 
 	}
 
-	function sign( num ) {
+	function sign$1( num ) {
 
 		return num > 0 ? 1 : num < 0 ? - 1 : 0;
 
@@ -41872,7 +41875,7 @@
 
 				case 'Scene':
 
-					object = new Scene();
+					object = new Scene$1();
 
 					if ( data.background !== undefined ) {
 
@@ -42024,7 +42027,7 @@
 				case 'PointCloud':
 				case 'Points':
 
-					object = new Points( getGeometry( data.geometry ), getMaterial( data.material ) );
+					object = new Points$1( getGeometry( data.geometry ), getMaterial( data.material ) );
 
 					break;
 
@@ -45874,7 +45877,7 @@
 
 	}
 
-	AnimationMixer.prototype = Object.assign( Object.create( EventDispatcher$1.prototype ), {
+	AnimationMixer.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
 
 		constructor: AnimationMixer,
 
@@ -47419,7 +47422,7 @@
 
 	const _vector$9 = /*@__PURE__*/ new Vector3();
 
-	class SpotLightHelper extends Object3D {
+	class SpotLightHelper$1 extends Object3D {
 
 		constructor( light, color ) {
 
@@ -48258,7 +48261,7 @@
 
 	}
 
-	class Box3Helper extends LineSegments {
+	class Box3Helper$1 extends LineSegments {
 
 		constructor( box, color = 0xffff00 ) {
 
@@ -49507,7 +49510,7 @@
 	function PointCloud( geometry, material ) {
 
 		console.warn( 'THREE.PointCloud has been renamed to THREE.Points.' );
-		return new Points( geometry, material );
+		return new Points$1( geometry, material );
 
 	}
 
@@ -49521,11 +49524,11 @@
 	function ParticleSystem( geometry, material ) {
 
 		console.warn( 'THREE.ParticleSystem has been renamed to THREE.Points.' );
-		return new Points( geometry, material );
+		return new Points$1( geometry, material );
 
 	}
 
-	function PointCloudMaterial( parameters ) {
+	function PointCloudMaterial$1( parameters ) {
 
 		console.warn( 'THREE.PointCloudMaterial has been renamed to THREE.PointsMaterial.' );
 		return new PointsMaterial( parameters );
@@ -50853,7 +50856,7 @@
 
 	//
 
-	Object.assign( Scene.prototype, {
+	Object.assign( Scene$1.prototype, {
 
 		dispose: function () {
 
@@ -54185,7 +54188,12 @@
 				{ // coordinate labels
 					let coordinateLabel = this.coordinateLabels[0];
 					
-					let msg = position.toArray().map(p => Utils.addCommas(p.toFixed(2))).join(" / ");
+					// ORIGINEEL : 	let msg = position.toArray().map(p => Utils.addCommas(p.toFixed(2))).join(" / ");
+					// ORIGINEEL : 	let msg = position.toArray().map(p => Potree.utils.addCommas(p.toFixed(2))).join(", ");
+					// OUD 		 :	let msg = Potree.utils.addCommas(position.z.toFixed(2) + " " + this.lengthUnit.code);
+					
+					let msg = Utils.addCommas(position.z.toFixed(2) + " m");
+
 					coordinateLabel.setText(msg);
 
 					coordinateLabel.visible = this.showCoordinates;
@@ -54849,7 +54857,7 @@
 
 			let camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 100000);
 			camera.up.set(0, 0, 1);
-			let scene = new Scene();
+			let scene = new Scene$1();
 
 			let format = '.jpg';
 			let urls = [
@@ -55643,7 +55651,7 @@
 	}
 
 	Utils.screenPass = new function () {
-		this.screenScene = new Scene();
+		this.screenScene = new Scene$1();
 		this.screenQuad = new Mesh(new PlaneBufferGeometry(2, 2, 1));
 		this.screenQuad.material.depthTest = true;
 		this.screenQuad.material.depthWrite = true;
@@ -55662,7 +55670,7 @@
 		};
 	}();
 
-	class Annotation extends EventDispatcher {
+	class Annotation extends EventDispatcher$1 {
 		constructor (args = {}) {
 			super();
 
@@ -56295,7 +56303,7 @@
 		MIRRORED_REPEAT: 2,
 	};
 
-	const MOUSE$1 = {
+	const MOUSE = {
 		LEFT: 0b0001,
 		RIGHT: 0b0010,
 		MIDDLE: 0b0100
@@ -56591,7 +56599,7 @@
 
 	}
 
-	class PointCloudTreeNode extends EventDispatcher{
+	class PointCloudTreeNode extends EventDispatcher$1{
 
 		constructor(){
 			super();
@@ -56751,17 +56759,6 @@
 		addVector(vector){
 			this.vectors.push(vector);
 		}
-
-		hasColors(){
-			for (let name in this.attributes) {
-				let pointAttribute = this.attributes[name];
-				if (pointAttribute.name === PointAttributeNames.COLOR_PACKED) {
-					return true;
-				}
-			}
-
-			return false;
-		};
 
 		hasNormals(){
 			for (let name in this.attributes) {
@@ -59075,7 +59072,7 @@ void main() {
 	//
 
 
-	class PointCloudMaterial$1 extends RawShaderMaterial {
+	class PointCloudMaterial extends RawShaderMaterial {
 		constructor (parameters = {}) {
 			super();
 
@@ -59103,7 +59100,7 @@ void main() {
 			this.clipPolygons = [];
 			this._weighted = false;
 			this._gradient = Gradients.SPECTRAL;
-			this.gradientTexture = PointCloudMaterial$1.generateGradientTexture(this._gradient);
+			this.gradientTexture = PointCloudMaterial.generateGradientTexture(this._gradient);
 			this._matcap = "matcap.jpg";
 			this.matcapTexture = Potree.PointCloudMaterial.generateMatcapTexture(this._matcap);
 			this.lights = false;
@@ -59387,7 +59384,7 @@ void main() {
 		set gradient (value) {
 			if (this._gradient !== value) {
 				this._gradient = value;
-				this.gradientTexture = PointCloudMaterial$1.generateGradientTexture(this._gradient);
+				this.gradientTexture = PointCloudMaterial.generateGradientTexture(this._gradient);
 				this.uniforms.gradient.value = this.gradientTexture;
 			}
 		}
@@ -60136,17 +60133,6 @@ void main() {
 			return texture; 
 		}
 
-		static generateMatcapTexture (matcap) {
-		var url = new URL(Potree.resourcePath + "/textures/matcap/" + matcap).href;
-		let texture = new TextureLoader().load( url );
-			texture.magFilter = texture.minFilter = LinearFilter; 
-			texture.needsUpdate = true;
-			// PotreeConverter_1.6_2018_07_29_windows_x64\PotreeConverter.exe autzen_xyzrgbXYZ_ascii.xyz -f xyzrgbXYZ -a RGB NORMAL -o autzen_xyzrgbXYZ_ascii_a -p index --overwrite
-			// Switch matcap texture on the fly : viewer.scene.pointclouds[0].material.matcap = 'matcap1.jpg'; 
-			// For non power of 2, use LinearFilter and dont generate mipmaps, For power of 2, use NearestFilter and generate mipmaps : matcap2.jpg 1 2 8 11 12 13
-			return texture; 
-		}
-
 		disableEvents(){
 			if(this._hiddenListeners === undefined){
 				this._hiddenListeners = this._listeners;
@@ -60276,7 +60262,7 @@ void main() {
 			this.pcoGeometry = geometry;
 			this.boundingBox = this.pcoGeometry.boundingBox;
 			this.boundingSphere = this.boundingBox.getBoundingSphere(new Sphere());
-			this.material = material || new PointCloudMaterial$1();
+			this.material = material || new PointCloudMaterial();
 			this.visiblePointsTarget = 2 * 1000 * 1000;
 			this.minimumNodePixelSize = 150;
 			this.level = 0;
@@ -60376,7 +60362,7 @@ void main() {
 			// if(geometryNode.name === "r40206"){
 			//	console.log("creating node for r40206");
 			// }
-			let sceneNode = new Points(geometryNode.geometry, this.material);
+			let sceneNode = new Points$1(geometryNode.geometry, this.material);
 			sceneNode.name = geometryNode.name;
 			sceneNode.position.copy(geometryNode.boundingBox.min);
 			sceneNode.frustumCulled = false;
@@ -60535,7 +60521,7 @@ void main() {
 
 				let density = node.geometryNode.density;
 				
-				if(typeof density === "number"){
+				if(typeof density === "number" && !Number.isNaN(density)){
 					let lodOffset = Math.log2(density) / 2 - 1.5;
 
 					let offsetUint8 = (lodOffset + 10) * 10;
@@ -60928,7 +60914,7 @@ void main() {
 			}
 
 			if (!this.pickState) {
-				let scene = new Scene();
+				let scene = new Scene$1();
 
 				let material = new Potree.PointCloudMaterial();
 				material.activeAttributeName = "indices";
@@ -61310,7 +61296,7 @@ void main() {
 
 	}
 
-	class Points$1 {
+	class Points {
 		
 		constructor () {
 			this.boundingBox = new Box3();
@@ -61368,7 +61354,7 @@ void main() {
 	 * @author mschuetz / http://potree.org
 	 */
 
-	class Box3Helper$1 extends LineSegments {
+	class Box3Helper extends LineSegments {
 		constructor (box, color) {
 			if (color === undefined) color = 0xffff00;
 
@@ -61716,7 +61702,7 @@ void main() {
 				}
 
 				if (pointcloud.showBoundingBox && !node.boundingBoxNode && node.getBoundingBox) {
-					let boxHelper = new Box3Helper$1(node.getBoundingBox());
+					let boxHelper = new Box3Helper(node.getBoundingBox());
 					boxHelper.matrixAutoUpdate = false;
 					pointcloud.boundingBoxNodes.push(boxHelper);
 					node.boundingBoxNode = boxHelper;
@@ -61912,7 +61898,7 @@ void main() {
 			this.pcoGeometry = geometry;
 			this.boundingBox = this.pcoGeometry.boundingBox;
 			this.boundingSphere = this.pcoGeometry.boundingSphere;
-			this.material = new PointCloudMaterial$1({vertexColors: VertexColors, size: 0.05, treeType: TreeType.KDTREE});
+			this.material = new PointCloudMaterial({vertexColors: VertexColors, size: 0.05, treeType: TreeType.KDTREE});
 			this.material.sizeType = PointSizeType.ATTENUATED;
 			this.material.size = 0.05;
 			this.profileRequests = [];
@@ -61945,7 +61931,7 @@ void main() {
 
 		toTreeNode (geometryNode, parent) {
 			let node = new PointCloudArena4DNode();
-			let sceneNode = new Points(geometryNode.geometry, this.material);
+			let sceneNode = new Points$1(geometryNode.geometry, this.material);
 
 			sceneNode.frustumCulled = false;
 			sceneNode.onBeforeRender = (_this, scene, camera, geometry, material, group) => {
@@ -62118,9 +62104,9 @@ void main() {
 			}
 
 			if (!this.pickState) {
-				let scene = new Scene();
+				let scene = new Scene$1();
 
-				let material = new PointCloudMaterial$1();
+				let material = new PointCloudMaterial();
 				material.activeAttributeName = "indices";
 
 				let renderTarget = new WebGLRenderTarget(
@@ -63883,7 +63869,7 @@ void main() {
 					cutPlane: cutPlane,
 					halfPlane: halfPlane,
 					length: length,
-					points: new Points$1()
+					points: new Points()
 				};
 
 				this.segments.push(segment);
@@ -64140,7 +64126,7 @@ void main() {
 					let sv = new Vector3().subVectors(segment.end, segment.start).setZ(0);
 					let segmentDir = sv.clone().normalize();
 
-					let points = new Points$1();
+					let points = new Points();
 
 					let nodeMatrix = new Matrix4().makeTranslation(...node.boundingBox.min.toArray());
 
@@ -64596,7 +64582,7 @@ void main() {
 
 
 
-	class CameraAnimation extends EventDispatcher{
+	class CameraAnimation extends EventDispatcher$1{
 
 		constructor(viewer){
 			super();
@@ -65102,7 +65088,7 @@ void main() {
 
 	}
 
-	function loadPointCloud(viewer, data){
+	function loadPointCloud$1(viewer, data){
 
 		let loadMaterial = (target) => {
 
@@ -65423,7 +65409,7 @@ void main() {
 
 		const pointcloudPromises = [];
 		for(const pointcloud of data.pointclouds){
-			const promise = loadPointCloud(viewer, pointcloud);
+			const promise = loadPointCloud$1(viewer, pointcloud);
 			pointcloudPromises.push(promise);
 		}
 
@@ -66542,6 +66528,13 @@ void main() {
 					current.byteOffset = byteOffset;
 					current.byteSize = byteSize;
 					current.numPoints = numPoints;
+				}
+
+				if(current.byteSize === 0n){
+					// workaround for issue #1125
+					// some inner nodes erroneously report >0 points even though have 0 points
+					// however, they still report a byteSize of 0, so based on that we now set node.numPoints to 0
+					current.numPoints = 0;
 				}
 				
 				current.nodeType = type;
@@ -67755,7 +67748,7 @@ void main() {
 		};
 	};
 
-	class ClippingTool extends EventDispatcher{
+	class ClippingTool extends EventDispatcher$1{
 
 		constructor(viewer){
 			super(); 
@@ -67770,8 +67763,8 @@ void main() {
 				});
 			});
 
-			this.sceneMarker = new Scene();
-			this.sceneVolume = new Scene();
+			this.sceneMarker = new Scene$1();
+			this.sceneVolume = new Scene$1();
 			this.sceneVolume.name = "scene_clip_volume";
 			this.viewer.inputHandler.registerInteractiveScene(this.sceneVolume);
 
@@ -67859,7 +67852,7 @@ void main() {
 			};
 
 			let insertionCallback = (e) => {
-				if(e.button === MOUSE.LEFT){
+				if(e.button === MOUSE$1.LEFT){
 					
 					polyClipVol.addMarker();
 
@@ -67878,7 +67871,7 @@ void main() {
 					
 					this.viewer.inputHandler.startDragging(
 						polyClipVol.markers[polyClipVol.markers.length - 1]);
-				}else if(e.button === MOUSE.RIGHT){
+				}else if(e.button === MOUSE$1.RIGHT){
 					cancel.callback(e);
 				}
 			};
@@ -68400,7 +68393,7 @@ void main() {
 		azimuth.label.scale.set(scale, scale, scale);
 	}
 
-	class MeasuringTool extends EventDispatcher{
+	class MeasuringTool extends EventDispatcher$1{
 		constructor (viewer) {
 			super();
 
@@ -68414,7 +68407,7 @@ void main() {
 			});
 
 			this.showLabels = true;
-			this.scene = new Scene();
+			this.scene = new Scene$1();
 			this.scene.name = 'scene_measurement';
 			this.light = new PointLight(0xffffff, 1.0);
 			this.scene.add(this.light);
@@ -68486,7 +68479,7 @@ void main() {
 			};
 
 			let insertionCallback = (e) => {
-				if (e.button === MOUSE.LEFT) {
+				if (e.button === MOUSE$1.LEFT) {
 					measure.addMarker(measure.points[measure.points.length - 1].position.clone());
 
 					if (measure.points.length >= measure.maxMarkers) {
@@ -68495,7 +68488,7 @@ void main() {
 
 					this.viewer.inputHandler.startDragging(
 						measure.spheres[measure.spheres.length - 1]);
-				} else if (e.button === MOUSE.RIGHT) {
+				} else if (e.button === MOUSE$1.RIGHT) {
 					cancel.callback();
 				}
 			};
@@ -68504,13 +68497,13 @@ void main() {
 				if (cancel.removeLastMarker) {
 					measure.removeMarker(measure.points.length - 1);
 				}
-				domElement.removeEventListener('mouseup', insertionCallback, true);
+				domElement.removeEventListener('mouseup', insertionCallback, false);
 				this.viewer.removeEventListener('cancel_insertions', cancel.callback);
 			};
 
 			if (measure.maxMarkers > 1) {
 				this.viewer.addEventListener('cancel_insertions', cancel.callback);
-				domElement.addEventListener('mouseup', insertionCallback, true);
+				domElement.addEventListener('mouseup', insertionCallback, false);
 			}
 
 			measure.addMarker(new Vector3(0, 0, 0));
@@ -68810,7 +68803,7 @@ void main() {
 
 	}
 
-	class ProfileTool extends EventDispatcher {
+	class ProfileTool extends EventDispatcher$1 {
 		constructor (viewer) {
 			super();
 
@@ -68823,7 +68816,7 @@ void main() {
 				});
 			});
 
-			this.scene = new Scene();
+			this.scene = new Scene$1();
 			this.scene.name = 'scene_profile';
 			this.light = new PointLight(0xffffff, 1.0);
 			this.scene.add(this.light);
@@ -68873,7 +68866,7 @@ void main() {
 			};
 
 			let insertionCallback = (e) => {
-				if(e.button === MOUSE.LEFT){
+				if(e.button === MOUSE$1.LEFT){
 					if(profile.points.length <= 1){
 						let camera = this.viewer.scene.getActiveCamera();
 						let distance = camera.position.distanceTo(profile.points[0]);
@@ -68888,19 +68881,19 @@ void main() {
 
 					this.viewer.inputHandler.startDragging(
 						profile.spheres[profile.spheres.length - 1]);
-				} else if (e.button === MOUSE.RIGHT) {
+				} else if (e.button === MOUSE$1.RIGHT) {
 					cancel.callback();
 				}
 			};
 
 			cancel.callback = e => {
 				profile.removeMarker(profile.points.length - 1);
-				domElement.removeEventListener('mouseup', insertionCallback, true);
+				domElement.removeEventListener('mouseup', insertionCallback, false);
 				this.viewer.removeEventListener('cancel_insertions', cancel.callback);
 			};
 
 			this.viewer.addEventListener('cancel_insertions', cancel.callback);
-			domElement.addEventListener('mouseup', insertionCallback, true);
+			domElement.addEventListener('mouseup', insertionCallback, false);
 
 			profile.addMarker(new Vector3(0, 0, 0));
 			this.viewer.inputHandler.startDragging(
@@ -68937,13 +68930,13 @@ void main() {
 
 	}
 
-	class ScreenBoxSelectTool extends EventDispatcher{
+	class ScreenBoxSelectTool extends EventDispatcher$1{
 
 		constructor(viewer){
 			super();
 
 			this.viewer = viewer;
-			this.scene = new Scene();
+			this.scene = new Scene$1();
 
 			viewer.addEventListener("update", this.update.bind(this));
 			viewer.addEventListener("render.pass.perspective_overlay", this.render.bind(this));
@@ -69112,7 +69105,7 @@ void main() {
 
 	}
 
-	class SpotLightHelper$1 extends Object3D{
+	class SpotLightHelper extends Object3D{
 
 		constructor(light, color){
 			super();
@@ -69192,7 +69185,7 @@ void main() {
 		constructor(viewer) {
 			this.viewer = viewer;
 
-			this.scene = new Scene();
+			this.scene = new Scene$1();
 
 			this.selection = [];
 			this.pivot = new Vector3();
@@ -70056,7 +70049,7 @@ void main() {
 
 	};
 
-	class VolumeTool extends EventDispatcher{
+	class VolumeTool extends EventDispatcher$1{
 		constructor (viewer) {
 			super();
 
@@ -70069,7 +70062,7 @@ void main() {
 				});
 			});
 
-			this.scene = new Scene();
+			this.scene = new Scene$1();
 			this.scene.name = 'scene_volume';
 
 			this.viewer.inputHandler.registerInteractiveScene(this.scene);
@@ -70279,7 +70272,7 @@ void main() {
 			this.renderer = viewer.renderer;
 
 			{
-				let dummyScene = new Scene();
+				let dummyScene = new Scene$1();
 				let geometry = new SphereGeometry(0.001, 2, 2);
 				let mesh = new Mesh(geometry, new MeshBasicMaterial());
 				mesh.position.set(36453, 35163, 764712);
@@ -70830,12 +70823,12 @@ void main() {
 				originalMaterials.set(pointcloud, pointcloud.material);
 
 				if(!this.attributeMaterials.has(pointcloud)){
-					let attributeMaterial = new PointCloudMaterial$1();
+					let attributeMaterial = new PointCloudMaterial();
 					this.attributeMaterials.set(pointcloud, attributeMaterial);
 				}
 
 				if(!this.depthMaterials.has(pointcloud)){
-					let depthMaterial = new PointCloudMaterial$1();
+					let depthMaterial = new PointCloudMaterial();
 
 					depthMaterial.setDefine("depth_pass", "#define hq_depth_pass");
 					depthMaterial.setDefine("use_edl", "#define use_edl");
@@ -71225,16 +71218,16 @@ void main() {
 
 	};
 
-	class Scene$1 extends EventDispatcher{
+	class Scene extends EventDispatcher$1{
 
 		constructor(){
 			super();
 
 			this.annotations = new Annotation();
 			
-			this.scene = new Scene();
-			this.sceneBG = new Scene();
-			this.scenePointCloud = new Scene();
+			this.scene = new Scene$1();
+			this.sceneBG = new Scene$1();
+			this.scenePointCloud = new Scene$1();
 
 			this.cameraP = new PerspectiveCamera(this.fov, 1, 0.1, 1000*1000);
 			this.cameraO = new OrthographicCamera(-1, 1, 1, -1, 0.1, 1000*1000);
@@ -72681,7 +72674,7 @@ void main() {
 			this.geometry = geometry;
 			this.material = material;
 
-			this.sceneNode = new Points(geometry, material);
+			this.sceneNode = new Points$1(geometry, material);
 
 			this.geometryNode = {
 				estimatedSpacing: 1.0,
@@ -72706,7 +72699,7 @@ void main() {
 			this.visibleNodes = [];
 			
 			//this.material = this.trueOctree.material;
-			this.material = new PointCloudMaterial$1();
+			this.material = new PointCloudMaterial();
 			//this.material.copy(this.trueOctree.material);
 			copyMaterial(this.trueOctree.material, this.material);
 			this.material.pointSizeType = PointSizeType.FIXED;
@@ -72875,7 +72868,7 @@ void main() {
 
 	}
 
-	class ProfileWindow extends EventDispatcher {
+	class ProfileWindow extends EventDispatcher$1 {
 		constructor (viewer) {
 			super();
 
@@ -73125,7 +73118,7 @@ void main() {
 			});
 
 			let getProfilePoints = () => {
-				let points = new Points$1();
+				let points = new Points();
 				
 				for(let [pointcloud, entry] of this.pointclouds){
 					for(let pointSet of entry.points){
@@ -73296,23 +73289,13 @@ void main() {
 			this.camera.rotation.x = Math.PI / 2.0;
 		
 
-			this.scene = new Scene();
-			this.profileScene = new Scene();
+			this.scene = new Scene$1();
+			this.profileScene = new Scene$1();
 
 			let sg = new SphereGeometry(1, 16, 16);
 			let sm = new MeshNormalMaterial();
 			this.pickSphere = new Mesh(sg, sm);
 			this.scene.add(this.pickSphere);
-
-			{
-				const sg = new SphereGeometry(2);
-				const sm = new MeshNormalMaterial();
-				const s = new Mesh(sg, sm);
-
-				s.position.set(589530.450, 231398.860, 769.735);
-
-				this.scene.add(s);
-			}
 
 			this.viewerPickSphere = new Mesh(sg, sm);
 		}
@@ -73890,22 +73873,46 @@ void main() {
 				return '';
 			}
 
-			let dxfSection = `0
-CIRCLE
-8
-layer_point
-10
-${position.x}
-20
-${position.y}
-30
-${position.z}
-40
-1.0
-`;
+		let dxfSection_OUD_CIRKEL_NIET_GEBRUIKT = 
+				`0
+				CIRCLE
+				8
+				laag_punt
+				10
+				${position.x}
+				20
+				${position.y}
+				30
+				${position.z}
+				40
+				1.0
+				`;
+
+
+		let dxfSection = 
+				`0
+				TEXT
+				8
+				laag_hoogtepunt
+				62
+				3
+				10
+				${position.x}
+				20
+				${position.y}
+				30
+				${position.z}
+				40
+				2.0
+				1
+				${position.z.toFixed(2)}
+				`;
 
 			return dxfSection;
 		}
+
+
+
 
 		static measurementPolylineSection (measurement) {
 			// bit code for polygons/polylines:
@@ -73918,9 +73925,9 @@ ${position.z}
 			let dxfSection = `0
 POLYLINE
 8
-layer_polyline
+laag_lijn
 62
-1
+6
 66
 1
 10
@@ -74607,6 +74614,14 @@ ENDSEC
 				<li style="margin-top: 10px">
 					<input name="download_volume" type="button" value="prepare download" style="width: 100%" />
 					<div name="download_message"></div>
+
+					<!-- AANGEPAST -->
+					<input id="download_volume" type="button" value="dddooowwwwnnnnnnnn"/>
+					
+					<input name="download_volume" type="button" value="prepare download" style="width: 100%" />
+					<div name="download_message"></div>
+
+
 				</li>
 
 
@@ -74663,6 +74678,69 @@ ENDSEC
 			this.elContent.find("#volume_reset_orientation").click(() => {
 				measurement.rotation.set(0, 0, 0);
 			});
+
+
+
+			//
+			// AANGEPAST :: Download Pointcloud als LAS
+			//
+			// Beetje pielen met deze tool....via clipping volume het aantal punten bepalen...
+			//
+			// Clip Volume -> Daar worden de points bepaald die wel/niet zichbbaar zijn....KIJK DAAR NAAR qua tooling 
+			//
+			// http://localhost:1234/examples/clipping_volume.html
+			//
+			this.elContent.find("#download_volume").click(() => 
+			{
+				
+				console.log("DOWNLOAD TEST");
+				console.log("DOWNLOAD TEST");
+				
+				
+				this.download();
+
+				
+				console.log("DOWNLOAD Bepaal points...");
+				
+				
+
+				// Punten van de puntenwolk bepalen ::  versie van Profile
+				//let points = getProfilePoints();
+				/*
+				
+				let points = new Points$1();
+				for(let [pointcloud, entry] of this.viewer.scene.pointclouds)
+				{
+					
+					for(let pointSet of entry.points){
+
+						let originPos = pointSet.data.position;
+						let trueElevationPosition = new Float32Array(originPos);
+						for(let i = 0; i < pointSet.numPoints; i++){
+							trueElevationPosition[3 * i + 2] += pointcloud.position.z;
+						}
+
+						pointSet.data.position = trueElevationPosition;
+						points.add(pointSet);
+						pointSet.data.position = originPos;
+					}
+				}
+
+				let buffer = LASExporter.toLAS(points);
+
+				let blob = new Blob([buffer], {type: "application/octet-binary"});
+				$('#potree_download_profile_link').attr('href', URL.createObjectURL(blob));
+				
+				
+				console.log("DOWNLOAD Link: ", URL.createObjectURL(blob));
+				*/
+				
+			});
+
+
+
+
+
 
 			this.elContent.find("#volume_make_uniform").click(() => {
 				let mean = (measurement.scale.x + measurement.scale.y + measurement.scale.z) / 3;
@@ -74736,6 +74814,48 @@ ENDSEC
 				if(!pointcloud.visible){
 					continue;
 				}
+
+				// ----------------------------------------------
+
+				// AANGEPAST
+				
+				// LOG informatie
+				console.log("pointcloud object: ", pointcloud);
+				console.log("pointcloud naam: ", pointcloud.name);				
+				console.log("pointcloud numVisiblePoints: ", pointcloud.numVisiblePoints);
+				
+
+				//var punten_als_lijst = [];
+				//punten_als_lijst = getAllPointsOfPointCloud(pointcloud);	// TEST
+
+				
+				//getAllPointsOfPointCloud(pointcloud);
+
+
+				var array = pointcloud.pcoGeometry.root.geometry.attributes.position.array;
+				console.log("array object: ", array);
+
+				var punten_als_lijst = [];
+				var index = 0;
+				for (var i = 0; i < pointcloud.pcoGeometry.root.geometry.attributes.position.length;i=i+3) {
+					var x = array[i + 0];
+					var y = array[i+ 1];
+					var z = array[i + 2];
+
+					let position = new Vector3(x, y, z);
+					position.applyMatrix4(pointcloud.matrixWorld);
+
+
+					punten_als_lijst[index] = position;
+					index++;
+				}
+
+				console.log("pointcloud punten_als_lijst AANTAL: ", punten_als_lijst.length);
+				console.log("pointcloud punten_als_lijst LIJST:  ", punten_als_lijst);
+
+
+
+				// ----------------------------------------------
 
 				let offset = pointcloud.pcoGeometry.offset.clone();
 				let negateOffset = new Matrix4().makeTranslation(...offset.multiplyScalar(-1).toArray());
@@ -76608,7 +76728,7 @@ ENDSEC
 
 	}
 
-	class OrientedImageControls extends EventDispatcher{
+	class OrientedImageControls extends EventDispatcher$1{
 		
 		constructor(viewer){
 			super();
@@ -76670,7 +76790,7 @@ ENDSEC
 			});
 
 			this.scene = null;
-			this.sceneControls = new Scene();
+			this.sceneControls = new Scene$1();
 
 			let scroll = (e) => {
 				this.fovDelta += -e.delta * 1.0;
@@ -76929,7 +77049,7 @@ ENDSEC
 
 	};
 
-	class OrientedImages extends EventDispatcher{
+	class OrientedImages extends EventDispatcher$1{
 
 		constructor(){
 			super();
@@ -77328,7 +77448,7 @@ ENDSEC
 		}
 	};
 
-	class Images360 extends EventDispatcher{
+	class Images360 extends EventDispatcher$1{
 
 		constructor(viewer){
 			super();
@@ -77370,7 +77490,7 @@ ENDSEC
 			viewer.inputHandler.addInputListener(this);
 
 			this.addEventListener("mousedown", () => {
-				if(currentlyHovered){
+				if(currentlyHovered && currentlyHovered.image360){
 					this.focus(currentlyHovered.image360);
 				}
 			});
@@ -77739,14 +77859,14 @@ ENDSEC
 	let lexState;
 	let buffer;
 	let doubleQuote;
-	let sign$1;
+	let sign;
 	let c;
 
 	function lex () {
 	    lexState = 'default';
 	    buffer = '';
 	    doubleQuote = false;
-	    sign$1 = 1;
+	    sign = 1;
 
 	    for (;;) {
 	        c = peek();
@@ -77918,7 +78038,7 @@ ENDSEC
 	        case '-':
 	        case '+':
 	            if (read() === '-') {
-	                sign$1 = -1;
+	                sign = -1;
 	            }
 
 	            lexState = 'sign';
@@ -78069,7 +78189,7 @@ ENDSEC
 	        case 'I':
 	            read();
 	            literal('nfinity');
-	            return newToken('numeric', sign$1 * Infinity)
+	            return newToken('numeric', sign * Infinity)
 
 	        case 'N':
 	            read();
@@ -78100,7 +78220,7 @@ ENDSEC
 	            return
 	        }
 
-	        return newToken('numeric', sign$1 * 0)
+	        return newToken('numeric', sign * 0)
 	    },
 
 	    decimalInteger () {
@@ -78122,7 +78242,7 @@ ENDSEC
 	            return
 	        }
 
-	        return newToken('numeric', sign$1 * Number(buffer))
+	        return newToken('numeric', sign * Number(buffer))
 	    },
 
 	    decimalPointLeading () {
@@ -78150,7 +78270,7 @@ ENDSEC
 	            return
 	        }
 
-	        return newToken('numeric', sign$1 * Number(buffer))
+	        return newToken('numeric', sign * Number(buffer))
 	    },
 
 	    decimalFraction () {
@@ -78167,7 +78287,7 @@ ENDSEC
 	            return
 	        }
 
-	        return newToken('numeric', sign$1 * Number(buffer))
+	        return newToken('numeric', sign * Number(buffer))
 	    },
 
 	    decimalExponent () {
@@ -78204,7 +78324,7 @@ ENDSEC
 	            return
 	        }
 
-	        return newToken('numeric', sign$1 * Number(buffer))
+	        return newToken('numeric', sign * Number(buffer))
 	    },
 
 	    hexadecimal () {
@@ -78223,7 +78343,7 @@ ENDSEC
 	            return
 	        }
 
-	        return newToken('numeric', sign$1 * Number(buffer))
+	        return newToken('numeric', sign * Number(buffer))
 	    },
 
 	    string () {
@@ -79885,7 +80005,7 @@ ENDSEC
 			{ // REMOVE CLIPPING TOOLS
 				clippingToolBar.append(this.createToolIcon(
 					Potree.resourcePath + "/icons/remove.svg",
-					"[title]tt.remove_all_measurement",
+					"[title]tt.remove_all_clipping_volumes",
 					() => {
 
 						this.viewer.scene.removeAllClipVolumes();
@@ -80255,7 +80375,8 @@ ENDSEC
 				["DE", "de"],
 				["JP", "jp"],
 				["ES", "es"],
-				["SE", "se"]
+				["SE", "se"],
+				["ZH", "zh"]
 			];
 
 			let elLanguages = $('#potree_languages');
@@ -80575,7 +80696,7 @@ ENDSEC
 
 	}
 
-	class AnnotationTool extends EventDispatcher{
+	class AnnotationTool extends EventDispatcher$1{
 		constructor (viewer) {
 			super();
 
@@ -80606,9 +80727,9 @@ ENDSEC
 			};
 
 			let insertionCallback = (e) => {
-				if (e.button === MOUSE.LEFT) {
+				if (e.button === MOUSE$1.LEFT) {
 					callbacks.finish();
-				} else if (e.button === MOUSE.RIGHT) {
+				} else if (e.button === MOUSE$1.RIGHT) {
 					callbacks.cancel();
 				}
 			};
@@ -80677,7 +80798,7 @@ ENDSEC
 	 *
 	 */
 
-	class InputHandler extends EventDispatcher {
+	class InputHandler extends EventDispatcher$1 {
 		constructor (viewer) {
 			super();
 
@@ -81035,7 +81156,7 @@ ENDSEC
 			}
 
 			if(!consumed){
-				if (e.button === MOUSE.LEFT) {
+				if (e.button === MOUSE$1.LEFT) {
 					if (noMovement) {
 						let selectable = this.hoveredElements
 							.find(el => el.object._listeners && el.object._listeners['select']);
@@ -81055,7 +81176,7 @@ ENDSEC
 							this.deselectAll();
 						}
 					}
-				} else if ((e.button === MOUSE.RIGHT) && noMovement) {
+				} else if ((e.button === MOUSE$1.RIGHT) && noMovement) {
 					this.deselectAll();
 				}
 			}
@@ -81518,7 +81639,7 @@ ENDSEC
 	 */
 
 	 
-	class OrbitControls extends EventDispatcher{
+	class OrbitControls extends EventDispatcher$1{
 		
 		constructor(viewer){
 			super();
@@ -81527,7 +81648,7 @@ ENDSEC
 			this.renderer = viewer.renderer;
 
 			this.scene = null;
-			this.sceneControls = new Scene();
+			this.sceneControls = new Scene$1();
 
 			this.rotationSpeed = 5;
 
@@ -81557,12 +81678,12 @@ ENDSEC
 					y: e.drag.lastDrag.y / this.renderer.domElement.clientHeight
 				};
 
-				if (e.drag.mouse === MOUSE$1.LEFT) {
+				if (e.drag.mouse === MOUSE.LEFT) {
 					this.yawDelta += ndrag.x * this.rotationSpeed;
 					this.pitchDelta += ndrag.y * this.rotationSpeed;
 
 					this.stopTweens();
-				} else if (e.drag.mouse === MOUSE$1.RIGHT) {
+				} else if (e.drag.mouse === MOUSE.RIGHT) {
 					this.panDelta.x += ndrag.x;
 					this.panDelta.y += ndrag.y;
 
@@ -81808,7 +81929,7 @@ ENDSEC
 	 */
 
 
-	class FirstPersonControls extends EventDispatcher {
+	class FirstPersonControls extends EventDispatcher$1 {
 		constructor (viewer) {
 			super();
 
@@ -81816,7 +81937,7 @@ ENDSEC
 			this.renderer = viewer.renderer;
 
 			this.scene = null;
-			this.sceneControls = new Scene();
+			this.sceneControls = new Scene$1();
 
 			this.rotationSpeed = 200;
 			this.moveSpeed = 10;
@@ -81857,10 +81978,10 @@ ENDSEC
 					y: e.drag.lastDrag.y / this.renderer.domElement.clientHeight
 				};
 
-				if (e.drag.mouse === MOUSE$1.LEFT) {
+				if (e.drag.mouse === MOUSE.LEFT) {
 					this.yawDelta += ndrag.x * this.rotationSpeed;
 					this.pitchDelta += ndrag.y * this.rotationSpeed;
-				} else if (e.drag.mouse === MOUSE$1.RIGHT) {
+				} else if (e.drag.mouse === MOUSE.RIGHT) {
 					this.translationDelta.x -= ndrag.x * moveSpeed * 100;
 					this.translationDelta.z += ndrag.y * moveSpeed * 100;
 				}
@@ -82070,7 +82191,7 @@ ENDSEC
 		}
 	};
 
-	class EarthControls extends EventDispatcher {
+	class EarthControls extends EventDispatcher$1 {
 		constructor (viewer) {
 			super(viewer);
 
@@ -82078,7 +82199,7 @@ ENDSEC
 			this.renderer = viewer.renderer;
 
 			this.scene = null;
-			this.sceneControls = new Scene();
+			this.sceneControls = new Scene$1();
 
 			this.rotationSpeed = 10;
 
@@ -82120,7 +82241,7 @@ ENDSEC
 				let mouse = e.drag.end;
 				let domElement = this.viewer.renderer.domElement;
 
-				if (e.drag.mouse === MOUSE$1.LEFT) {
+				if (e.drag.mouse === MOUSE.LEFT) {
 
 					let ray = Utils.mouseToRay(mouse, camera, domElement.clientWidth, domElement.clientHeight);
 					let plane = new Plane().setFromNormalAndCoplanarPoint(
@@ -82148,7 +82269,7 @@ ENDSEC
 							this.viewer.setMoveSpeed(speed);
 						}
 					}
-				} else if (e.drag.mouse === MOUSE$1.RIGHT) {
+				} else if (e.drag.mouse === MOUSE.RIGHT) {
 					let ndrag = {
 						x: e.drag.lastDrag.x / this.renderer.domElement.clientWidth,
 						y: e.drag.lastDrag.y / this.renderer.domElement.clientHeight
@@ -82369,7 +82490,7 @@ ENDSEC
 	 *
 	 */
 
-	class DeviceOrientationControls extends EventDispatcher{
+	class DeviceOrientationControls extends EventDispatcher$1{
 		constructor(viewer){
 			super();
 
@@ -82377,7 +82498,7 @@ ENDSEC
 			this.renderer = viewer.renderer;
 
 			this.scene = null;
-			this.sceneControls = new Scene();
+			this.sceneControls = new Scene$1();
 
 			this.screenOrientation = window.orientation || 0;
 
@@ -85705,7 +85826,7 @@ ENDSEC
 
 					} else if ( primitive.mode === WEBGL_CONSTANTS.POINTS ) {
 
-						mesh = new Points( geometry, material );
+						mesh = new Points$1( geometry, material );
 
 					} else {
 
@@ -87265,7 +87386,7 @@ ENDSEC
 	};
 
 
-	class VRControls extends EventDispatcher{
+	class VRControls extends EventDispatcher$1{
 
 		constructor(viewer){
 			super(viewer);
@@ -87814,7 +87935,7 @@ ENDSEC
 
 	}
 
-	class Viewer extends EventDispatcher{
+	class Viewer extends EventDispatcher$1{
 		
 		constructor(domElement, args = {}){
 			super();
@@ -87985,7 +88106,7 @@ ENDSEC
 			}
 
 			{
-				this.overlay = new Scene();
+				this.overlay = new Scene$1();
 				this.overlayCamera = new OrthographicCamera(
 					0, 1,
 					1, 0,
@@ -88006,10 +88127,10 @@ ENDSEC
 			}
 			
 
-			let scene = new Scene$1(this.renderer);
+			let scene = new Scene(this.renderer);
 			
 			{ // create VR scene
-				this.sceneVR = new Scene();
+				this.sceneVR = new Scene$1();
 
 				// let texture = new THREE.TextureLoader().load(`${Potree.resourcePath}/images/vr_controller_help.jpg`);
 
@@ -88436,6 +88557,15 @@ ENDSEC
 			return this.fov;
 		};
 
+		// AANGEPAST
+		setPointSize (value) {
+			if (this.PointSize !== value) {
+				this.PointSize = value;
+				//this.dispatchEvent({'type': 'pointsize_changed', 'viewer': this}); // NOG IMPLEMENTEREN
+			}
+		};
+
+
 		disableAnnotations () {
 			this.scene.annotations.traverse(annotation => {
 				annotation.domElement.css('pointer-events', 'none');
@@ -88790,7 +88920,9 @@ ENDSEC
 			return Potree.saveProject(this);
 		}
 		
-		loadSettingsFromURL(){
+		loadSettingsFromURL()
+		{
+			
 			if(Utils.getParameterByName("pointSize")){
 				this.setPointSize(parseFloat(Utils.getParameterByName("pointSize")));
 			}
@@ -89047,7 +89179,7 @@ ENDSEC
 				i18n.init({
 					lng: 'en',
 					resGetPath: Potree.resourcePath + '/lang/__lng__/__ns__.json',
-					preload: ['en', 'fr', 'de', 'jp', 'se', 'es'],
+					preload: ['en', 'fr', 'de', 'jp', 'se', 'es', 'zh'],
 					getAsync: true,
 					debug: false
 				}, function (t) {
@@ -89127,14 +89259,14 @@ ENDSEC
 
 					const file = item.getAsFile();
 
-					const isJson = file.name.toLowerCase().endsWith(".json");
+					const isJson5 = file.name.toLowerCase().endsWith(".json5");
 					const isGeoPackage = file.name.toLowerCase().endsWith(".gpkg");
 
-					if(isJson){
+					if(isJson5){
 						try{
 
 							const text = await file.text();
-							const json = JSON.parse(text);
+							const json = lib.parse(text);
 
 							if(json.type === "Potree"){
 								Potree.loadProject(viewer, json);
@@ -90192,8 +90324,8 @@ ENDSEC
 		if (exports.scriptPath.slice(-1) === '/') {
 			exports.scriptPath = exports.scriptPath.slice(0, -1);
 		}
-	} else if(({ url: (typeof document === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : (document.currentScript && document.currentScript.src || new URL('potree.js', document.baseURI).href)) })){
-		exports.scriptPath = new URL((typeof document === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : (document.currentScript && document.currentScript.src || new URL('potree.js', document.baseURI).href)) + "/..").href;
+	} else if(({ url: (typeof document === 'undefined' && typeof location === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : typeof document === 'undefined' ? location.href : (document.currentScript && document.currentScript.src || new URL('potree.js', document.baseURI).href)) })){
+		exports.scriptPath = new URL((typeof document === 'undefined' && typeof location === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : typeof document === 'undefined' ? location.href : (document.currentScript && document.currentScript.src || new URL('potree.js', document.baseURI).href)) + "/..").href;
 		if (exports.scriptPath.slice(-1) === '/') {
 			exports.scriptPath = exports.scriptPath.slice(0, -1);
 		}
@@ -90204,7 +90336,7 @@ ENDSEC
 	let resourcePath = exports.scriptPath + '/resources';
 
 
-	function loadPointCloud$1(path, name, callback){
+	function loadPointCloud(path, name, callback){
 		let loaded = function(e){
 			e.pointcloud.name = name;
 			callback(e);
@@ -90375,7 +90507,7 @@ ENDSEC
 	exports.Action = Action;
 	exports.AnimationPath = AnimationPath;
 	exports.Annotation = Annotation;
-	exports.Box3Helper = Box3Helper$1;
+	exports.Box3Helper = Box3Helper;
 	exports.BoxVolume = BoxVolume;
 	exports.CameraAnimation = CameraAnimation;
 	exports.CameraMode = CameraMode;
@@ -90387,6 +90519,10 @@ ENDSEC
 	exports.Compass = Compass;
 	exports.DeviceOrientationControls = DeviceOrientationControls;
 	exports.EarthControls = EarthControls;
+
+	exports.GeoJSONExporter = GeoJSONExporter; // AANGEPAST
+	exports.DXFExporter = DXFExporter; // AANGEPAST
+
 	exports.ElevationGradientRepeat = ElevationGradientRepeat;
 	exports.Enum = Enum;
 	exports.EnumItem = EnumItem;
@@ -90396,7 +90532,7 @@ ENDSEC
 	exports.EptLazBatcher = EptLazBatcher;
 	exports.EptLoader = EptLoader;
 	exports.EptZstandardLoader = EptZstandardLoader;
-	exports.EventDispatcher = EventDispatcher;
+	exports.EventDispatcher = EventDispatcher$1;
 	exports.EyeDomeLightingMaterial = EyeDomeLightingMaterial;
 	exports.Features = Features;
 	exports.FirstPersonControls = FirstPersonControls;
@@ -90410,7 +90546,7 @@ ENDSEC
 	exports.LRU = LRU;
 	exports.LRUItem = LRUItem;
 	exports.LengthUnits = LengthUnits;
-	exports.MOUSE = MOUSE$1;
+	exports.MOUSE = MOUSE;
 	exports.Measure = Measure;
 	exports.MeasuringTool = MeasuringTool;
 	exports.Message = Message;
@@ -90429,7 +90565,7 @@ ENDSEC
 	exports.PointAttributes = PointAttributes;
 	exports.PointCloudEptGeometry = PointCloudEptGeometry;
 	exports.PointCloudEptGeometryNode = PointCloudEptGeometryNode;
-	exports.PointCloudMaterial = PointCloudMaterial$1;
+	exports.PointCloudMaterial = PointCloudMaterial;
 	exports.PointCloudOctree = PointCloudOctree;
 	exports.PointCloudOctreeGeometry = PointCloudOctreeGeometry;
 	exports.PointCloudOctreeGeometryNode = PointCloudOctreeGeometryNode;
@@ -90439,18 +90575,18 @@ ENDSEC
 	exports.PointCloudTreeNode = PointCloudTreeNode;
 	exports.PointShape = PointShape;
 	exports.PointSizeType = PointSizeType;
-	exports.Points = Points$1;
+	exports.Points = Points;
 	exports.PolygonClipVolume = PolygonClipVolume;
 	exports.Profile = Profile;
 	exports.ProfileData = ProfileData;
 	exports.ProfileRequest = ProfileRequest;
 	exports.ProfileTool = ProfileTool;
 	exports.Renderer = Renderer;
-	exports.Scene = Scene$1;
+	exports.Scene = Scene;
 	exports.ScreenBoxSelectTool = ScreenBoxSelectTool;
 	exports.ShapefileLoader = ShapefileLoader;
 	exports.SphereVolume = SphereVolume;
-	exports.SpotLightHelper = SpotLightHelper$1;
+	exports.SpotLightHelper = SpotLightHelper;
 	exports.TextSprite = TextSprite;
 	exports.TransformationTool = TransformationTool;
 	exports.TreeType = TreeType;
@@ -90464,7 +90600,7 @@ ENDSEC
 	exports.XHRFactory = XHRFactory;
 	exports.debug = debug;
 	exports.framenumber = framenumber;
-	exports.loadPointCloud = loadPointCloud$1;
+	exports.loadPointCloud = loadPointCloud;
 	exports.loadProject = loadProject;
 	exports.lru = lru;
 	exports.maxNodesLoading = maxNodesLoading;
@@ -90480,5 +90616,5 @@ ENDSEC
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=potree.js.map
