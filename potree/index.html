@@ -1,82 +1,1249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<title>Potree Viewer</title>
-
-	<link rel="stylesheet" type="text/css" href="./libs/potree/potree.css">
-	<link rel="stylesheet" type="text/css" href="./libs/jquery-ui/jquery-ui.min.css">
-	<link rel="stylesheet" type="text/css" href="./libs/openlayers3/ol.css">
-	<link rel="stylesheet" type="text/css" href="./libs/spectrum/spectrum.css">
-	<link rel="stylesheet" type="text/css" href="./libs/jstree/themes/mixed/style.css">
+    <meta charset="utf-8">
+    <meta name="description" content="Puntenwolk demo viewer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Puntenwolk Demo</title>
+    <!-- <link rel="icon" href="img/logoOSU2.png"> -->
+    <link rel="stylesheet" type="text/css" href="libs/potree/potree.css">
+    <link rel="stylesheet" type="text/css" href="libs/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="libs/perfect-scrollbar/css/perfect-scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="libs/openlayers3/ol.css">
+    <link rel="stylesheet" type="text/css" href="libs/spectrum/spectrum.css">
+    <link rel="stylesheet" type="text/css" href="libs/jstree/themes/mixed/style.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"/>
+	<link rel="stylesheet" href="https://codeseven.github.io/toastr/build/toastr.min.css"/> <!-- AANGEPAST TOEGEVOEGD -->
 </head>
 
 <body>
-	<script src="./libs/jquery/jquery-3.1.1.min.js"></script>
-	<script src="./libs/spectrum/spectrum.js"></script>
-	<script src="./libs/jquery-ui/jquery-ui.min.js"></script>
-	<script src="./libs/other/BinaryHeap.js"></script>
-	<script src="./libs/tween/tween.min.js"></script>
-	<script src="./libs/d3/d3.js"></script>
-	<script src="./libs/proj4/proj4.js"></script>
-	<script src="./libs/openlayers3/ol.js"></script>
-	<script src="./libs/i18next/i18next.js"></script>
-	<script src="./libs/jstree/jstree.js"></script>
-	<script src="./libs/potree/potree.js"></script>
-	<script src="./libs/plasio/js/laslaz.js"></script>
+<script src="libs/jquery/jquery-3.1.1.min.js"></script>
+<script src="libs/spectrum/spectrum.js"></script>
+<script src="libs/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
+<script src="libs/jquery-ui/jquery-ui.min.js"></script>
+<script src="libs/three.js/build/three.min.js"></script>
+<script src="libs/other/BinaryHeap.js"></script>
+<script src="libs/tween/tween.min.js"></script>
+<script src="libs/d3/d3.js"></script>
+<script src="libs/proj4/proj4.js"></script>
+<script src="libs/openlayers3/ol.js"></script>
+<script src="libs/i18next/i18next.js"></script>
+<script src="libs/jstree/jstree.js"></script>
+<script src="libs/potree/potree.js"></script>
+<script src="libs/plasio/js/laslaz.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="assets/03_POSES/cameras.js"></script>
+<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/4.1.2/math.min.js"></script>
+<script src="https://codeseven.github.io/toastr/build/toastr.min.js"></script> <!-- AANGEPAST TOEGEVOEGD -->
+
+
+<!-- Bootstrap Layout -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-0" style="z-index:100;">
+
+
+
+
+	<!-- 
+    <a class="navbar-brand" href="#">
+        <img src="img/logoOSU2.png"  height="50px" class="d-inline-block align-top">
+    </a>
+	-->
 	
-	<!-- INCLUDE ADDITIONAL DEPENDENCIES HERE -->
-	<!-- INCLUDE SETTINGS HERE -->
+    <div class="d-flex justify-content-left nav-item">
+        <span class="navbar-text"><h2>Puntenwolk Viewer Demo</h2></span>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <!--Create class ml-auto for the navbar items you want on the right.-->
+        <ul class="navbar-nav ml-auto" >
+		
+		
+            <!--Previous Image Arrow-->
+			<!-- 
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="imgleft">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-square fa-stack-2x buttonbg"></i>
+                        <i class="fa fa-arrow-left fa-stack-1x buttonfg"></i>
+                    </span>
+                </a>
+            </li>
+			-->
+
+            <!--Toggle Image -->
+			<!-- 
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="toggleimage">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-square fa-stack-2x buttonbg"></i>
+                        <i id="cameraicon" class="fa fa-camera fa-stack-1x buttonfg buttonfgclicked"></i>
+                        <strong class="fa-stack-1x cameranumber" id="btnimagenum">0</strong>
+                    </span>
+                </a>
+            </li>
+			-->
+			
+            <!--Next Image Arrow -->
+			<!-- 
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="imgright">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-square fa-stack-2x buttonbg"></i>
+                        <i class="fa fa-arrow-right fa-stack-1x buttonfg"></i>
+                    </span>
+                </a>
+            </li>
+			-->
+
+            <!-- Toggle Map-->
+            <li class="nav-item">
+                <a class="nav-link" href="index.html#" id="togglemap">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-square fa-stack-2x buttonbg"></i>
+                        <i id="mapbutton" class="fa fa-map fa-stack-1x buttonfg buttonfgclicked"></i>
+                    </span>
+                </a>
+            </li>
+
+            <!-- Tools-->
+            <li class="nav-item dropdown keep-open">
+                <a class="nav-link" href="index.html#" role="button" data-toggle="dropdown" >
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-square fa-stack-2x buttonbg"></i>
+                        <i class="fa fa-wrench fa-stack-1x buttonfg"></i>
+                        <i class="fa fa-sort-down fa-stack-1x buttonfg downchevron"></i>
+                    </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <!--use font awesome icons-->
+                    <a id="measheader" class="dropdown-item navbar-text" href="index.html#"> <strong><span class="fa-stack fa-lg">
+                        <i class="fa fa-square fa-stack-2x buttonbg"></i>
+                        <i class="fa fa-wrench fa-stack-1x buttonfg"></i>
+                    </span>Metingen</strong> </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item navbar-text" href="index.html#" id="measPoint"> <i class="fa fa-bullseye fa-fw fa-lg"></i> Punthoogte </a>
+                    <a class="dropdown-item navbar-text" href="index.html#" id="measDistance"> <i class="fa fa-arrows-h fa-fw fa-lg"></i> Afstand </a>
+                    <a class="dropdown-item navbar-text" href="index.html#" id="measHeight"> <i class="fa fa-arrows-v fa-fw fa-lg"></i> Hoogteverschil </a>
+                    <a class="dropdown-item navbar-text" href="index.html#" id="measAngle"> <i class="fa fa-share-alt fa-fw fa-lg"></i> Hoek </a>
+					<a class="dropdown-item navbar-text" href="index.html#" id="measPolygoon"> <i class="fa fa-share-alt fa-fw fa-lg"></i> Polygoon </a>
+					<!--
+                    <a class="dropdown-item navbar-text" href="#" id="measLookAt"> <i id="lookatbtn" class="fa fa-crosshairs fa-fw fa-lg"></i> Look At </a>
+                    <a class="dropdown-item navbar-text" href="#" id="lookAtFilter"> &nbsp &nbsp <i id="filterbtn" class="fa fa-filter fa-fw fa-lg"></i> Filter Images </a>
+                    <a class="dropdown-item navbar-text" href="#" id="toggleLookAtPtVisible"> &nbsp &nbsp <i id="lookatvisible" class="fa fa-circle fa-fw fa-lg buttonfgclicked"></i> Visible Point </a>
+					-->
+                    <a class="dropdown-item navbar-text" href="index.html#" id="measClear"> <i class="fa fa-close fa-fw fa-lg"></i> Verwijder metingen </a>
+                </div>
+            </li>
+
+            <!-- Appearance-->
+            <li class="nav-item dropdown keep-open">
+                <a class="nav-link " href="index.html#" role="button" data-toggle="dropdown" >
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-square fa-stack-2x buttonbg"></i>
+                        <i class="fa fa-paint-brush fa-stack-1x buttonfg"></i>
+                        <i class="fa fa-sort-down fa-stack-1x buttonfg downchevron"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right" >
+                    <li id="appearanceheader"><a class="dropdown-item navbar-text" href="index.html#"> <strong>
+                        <span class="fa-stack fa-lg">
+                        <i class="fa fa-square fa-stack-2x buttonbg"></i>
+                        <i class="fa fa-paint-brush fa-stack-1x buttonfg"></i>
+                        </span>
+                        Weergave</strong> </a></li>
+                    <li><div class="dropdown-divider"></div></li>
+                    <li><a id="btntogglelighting" class="dropdown-item navbar-text" href="index.html#">
+                        <i id="btnlightbulb" class="fa fa-lightbulb-o fa-fw fa-lg "></i>
+                        EDL Licht </a>
+                    </li>
+
+                    <li><a id="btntoggleHQ" class="dropdown-item navbar-text" href="index.html#">
+                        <i id="btnHQ" class="fa fa-star fa-fw fa-lg "></i>
+                        Hoge Puntkwaliteit </a>
+                    </li>
+
+
+                    <li><div class="dropdown-divider"></div></li>
+
+                    <li>
+                        <a class="dropdown-item navbar-text" href="index.html#">
+                            <div class="input-group">
+                                <span class="input-group-addon navbar-text" style="width:140px">Aantal Punten:</span>
+                                <input id="sliderPointBudgetValue" type="text" class="form-control" placeholder="1M">
+                            </div>
+                            <div id="sliderPointBudget"></div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item navbar-text" href="index.html#">
+                            <div class="input-group">
+                                <span class="input-group-addon navbar-text" style="width:140px">Puntgrootte:</span>
+                                <input id="sliderPointSizeValue" type="text" class="form-control" placeholder="50">
+                            </div>
+                            <div id="sliderPointSize"></div>
+                        </a>
+                    </li>
+
+                    <li><div class="dropdown-divider"></div></li>
+
+                    <li class="dropdown-item navbar-text">
+                        <div class="input-group">
+                            <span class="input-group-addon navbar-text" style="width:140px">Kleur combineren:</span>
+                            <input id="colorblendValue" type="text" class="form-control" placeholder="0">
+                        </div>
+                        <div id="sliderColorBlend"></div>
+                        <div class="btn-group btn-group-justified" role="group" aria-label="Second group">
+                            <button id="btnRGB" type="button" class="btn btn-secondary" >Kleur</button>
+                            <button id="btnElev" type="button" class="btn btn-secondary" >Hoogte</button>
+                            <button id="btnBoth" type="button" class="btn btn-secondary" >Mix</button>
+							<button id="btnIntensiteit" type="button" class="btn btn-secondary" >Intensiteit</button>
+                        </div>
+                    </li>
+
+                    <li><div class="dropdown-divider"></div></li>
+
+                    <li>
+                        <a class="dropdown-item navbar-text" href="index.html#">
+                            Hoogtebereik: <br>
+                            <div id="slider-range"></div>
+                            <div class="input-group">
+                                <span class="input-group-addon navbar-text" style="width:140px">Min:</span>
+                                <input id="minval" type="text" class="form-control" name="email" placeholder="0">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon navbar-text" style="width:140px">Max:</span>
+                                <input id="maxval" type="text" class="form-control" name="password" placeholder="10">
+                            </div>
+                        </a>
+                    </li>
+
+                    <li><div class="dropdown-divider"></div></li>
+
+                    <li>
+                        <a class="dropdown-item navbar-text" href="index.html#">
+                            Kleurweergave: <br>
+                            <div class="btn-group btn-group-justified" role="group" aria-label="Second group">
+                                <button id="btnColormap1" type="button" class="btn btn-secondary" >&nbsp</button>
+                                <button id="btnColormap2" type="button" class="btn btn-secondary" >&nbsp</button>
+                                <button id="btnColormap3" type="button" class="btn btn-secondary" >&nbsp</button>
+                                <button id="btnColormap4" type="button" class="btn btn-secondary" >&nbsp</button>
+                                <button id="btnColormap5" type="button" class="btn btn-secondary" >&nbsp</button>
+                                <button id="btnColormap6" type="button" class="btn btn-secondary" >&nbsp</button>
+                                <button id="btnColormap7" type="button" class="btn btn-secondary" >&nbsp</button>
+                            </div>
+                        </a>
+                    </li>
+					<!--
+                    <li>
+                        <a class="dropdown-item navbar-text" href="#">
+                            <div class="input-group">
+                                <span class="input-group-addon navbar-text" style="width:140px">Image Opacity:</span>
+                                <input id="sliderImageOpacityValue" type="text" class="form-control" placeholder="100%">
+                            </div>
+
+                            <div id="sliderImageOpacity"></div>
+                        </a>
+                    </li>
+					-->
+                </ul>
+            </li>
+
+            <!-- Download-->
+
+            <li class="nav-item dropdown keep-open">
+			
+			
+                <a class="nav-link " href="index.html#" role="button" data-toggle="dropdown" >
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-square fa-stack-2x buttonbg"></i>
+                        <i class="fa fa-download fa-stack-1x buttonfg"></i>
+                        <i class="fa fa-sort-down fa-stack-1x buttonfg downchevron"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right" >
+				
+				
+				
+                    <li id="downloadheader"><a class="dropdown-item navbar-text" href="index.html#"> <strong>
+                        <span class="fa-stack fa-lg">
+                        <i class="fa fa-square fa-stack-2x buttonbg"></i>
+                        <i class="fa fa-download fa-stack-1x buttonfg"></i>
+                        </span>
+                        Download Data</strong> </a></li>
+                    <li><div class="dropdown-divider"></div></li>
+					
+					<!--
+                    <li><a class="dropdown-item navbar-text" href="assets/04_POINTCLOUD/foo.txt" download="foo_las.txt">
+                        <i class="fa fa-cloud fa-fw fa-lg "></i>
+                        Puntenwolk</a>
+                    </li>
+
+                    <li><a class="dropdown-item navbar-text" href="assets/04_POINTCLOUD/foo.txt" download="foo_ortho.txt">
+                        <i class="fa fa-image fa-fw fa-lg "></i>
+                        Orthofoto</a>
+                    </li>
+
+                    <li><a class="dropdown-item navbar-text" href="assets/04_POINTCLOUD/foo.txt" download="foo_meta.txt">
+                        <i class="fa fa-file fa-fw fa-lg "></i>
+                        Metadata - Info</a>
+                    </li>
+					-->
+					
+					<!--
+                    <li><a class="dropdown-item navbar-text" href="#" download="export_demo.dxf">
+                        <i class="fa fa-image fa-fw fa-lg "></i>
+                        download DXF</a>
+                    </li>
+					
+					<a href="#" download="export_demo.dxf"><img name="dxf_export_button" src="${dxfIcon}" class="button-icon" style="height: 24px" /></a>
+					-->
+								
+					<input type="button" id="btn" value="Download DXF" />
+					<script>
+						function download(filename, textInput) {
+
+							  var element = document.createElement('a');
+							  element.setAttribute('href','data:text/plain;charset=utf-8,' + encodeURIComponent(textInput));
+							  //element.setAttribute('href','data:application/octet-stream,' + new Blob([textInput]));
+							  element.setAttribute('download', filename);
+							  document.body.appendChild(element);
+							  element.click();
+							  //document.body.removeChild(element);
+						}
+						document.getElementById("btn")
+							  .addEventListener("click", function () 
+							  {
+									//var text = document.getElementById("text").value;
+									//var filename = "output.txt";
+									//download(filename, text);
+									
+									let scene = viewer.scene;
+									let measurements = [...scene.measurements, ...scene.profiles, ...scene.volumes];
+									
+									console.log("Geometrie van metingen:", measurements);
+									
+									if(measurements.length > 0)
+									{
+
+										//let dxf = Potree.DXFExporter.toString(measurements);
+
+										console.log("Potree: ", Potree);
+
+										let dxf = Potree.DXFExporter.toString(measurements);
+										
+										//console.log(dxf);
+
+										//let url = window.URL.createObjectURL(new Blob([dxf], {type: 'data:application/octet-stream'}));
+										
+										//download(url, dxf);
+										download("pointcloud-data-export.dxf", dxf);
+										
+										//elDownloadDXF.attr('href', url);	
+									}
+									else
+									{
+										toastr.warning('Helaas is het maken van een DXF niet mogelijk:\n\nGeen metingen aanwezig.')
+									}								
+									
+									
+							  }, false);
+					</script>					
+					
+					
+                </ul>
+            </li>
+
+            <!-- Info-->
+            <li class="nav-item">
+                <a class="nav-link" href="index.html#" data-toggle="modal" data-target="#infomodal">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-square fa-stack-2x buttonbg"></i>
+                        <i class="fa fa-info fa-stack-1x buttonfg"></i>
+                    </span>
+                </a>
+            </li>
+			
+            <!-- Help -->
+			
+            <li class="nav-item">
+                <a class="nav-link" href="index.html#" data-toggle="modal" data-target="#helpmodal" onclick="$('#carouselExampleIndicators').carousel(0);">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-square fa-stack-2x buttonbg"></i>
+                        <i class="fa fa-question fa-stack-1x buttonfg"></i>
+                    </span>
+                </a>
+            </li>
+
+
+
+
+			
+			
+			
+			
+        </ul>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
+
+<div id="mapcontainer" class="leaflet_map_container">
+<div id="leafletmap"></div>
+</div>
+<div class="potree_container" style="position: absolute; width: 100%; height: 100%; left: 0px; top: 0px;" >
+    <div id="potree_render_area">
+    </div>
+
+    <!-- <div id="attribution" ><a class="attr" href="https://wwwwwwwwwwwwwwww/">&nbsp<i class="fa fa-github fa-lg"></i> Demo Site (2022)&nbsp</a></div> -->
 	
-	<div class="potree_container" style="position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; ">
-		<div id="potree_render_area" style="background-image: url('../build/potree/resources/images/background.jpg');"></div>
-		<div id="potree_sidebar_container"> </div>
+
+	
+</div>
+
+
+<!-- Info Modal -->
+<div class="modal fade" id="infomodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-success">
+                <h4 class="modal-title">Informatie</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5>Viewer Demo</h5>
+                <p>
+                    Deze viewer geeft de mogelijkheid tot het weergeven van een 3D puntenwolk en om er metingen in uit te voeren.
+                    <br>
+                    <!--<i class="fa fa-github hyp"></i> <a class="hyp" href="xxxxxxxxxxxxxxxxxxx">Meer informatie</a>.-->
+                </p>
+                <hr>
+                <h5>Analyse Mogelijkheden</h5>
+                <ul>
+                    <li>Visualisatie van de puntenwolk:
+						<ul>
+						<li>Kleur</li>
+						<li>Intensiteit</li>
+						<li>Hoogte</li>
+						</ul>
+					</li>
+					<li>Meten van afstand</li>
+					<li>Meten van hoogteverschil</li>
+					<li>Bepalen van terreinhoogte</li>
+                </ul>
+                <hr>
+				
+                <!-- <hr> -->
+                <!-- <img class="" src="img/logoNSF.png" height = "100px" alt="First slide"> -->
+                <!-- <img class="" src="img/logoOSU.png" height = "100px" alt="First slide"> -->
+				
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+            case "carousel_1":
+                str = '(1/6) - Intro';
+                break;
+            case "carousel_2":
+                str = '(2/6) - Navigeren';
+                break;
+            case "carousel_3":
+                str = '(3/6) - Kleurenweergave';
+                break;
+            case "carousel_4":
+                str = '(4/6) - Meten';
+                break;
+            case "carousel_5":
+                str = '(5/6) - Meten "Punthoogte"';
+                break;
+            case "carousel_6":
+                str = '(6/6) - Meten "Lijn"';
+                break;
+
+
+<!-- Help Modal -->
+<div class="modal fade" id="helpmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header modal-header-info">
+				<h4 class="modal-title">Help <a id="helpsubtitle">(1/6) - Introductie</a></h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="helpmodalbody">
+				<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
+						<div class="carousel-inner" data-interval="false">
+						
+							<!-- #1 Intro -->
+							<div class="carousel-item active" id="carousel_1">
+								<!-- <img class="d-block w-100" src="doc/howto/01_LAYOUT.png" width = "100%" alt="afbeelding"> -->
+								<hr>
+								<p style="height:100px">In deze korte handleiding worden de mogelijkheden beschreven voor het gebruik van de viewer. Aan bod komen onder andere het navigeren, meten en veranderen van de weergave. </p>
+							</div>
+
+							<!-- #2 Navigeren -->
+							<div class="carousel-item " id="carousel_2">
+								<center><img class="d-block w-50" src="mouse.png" width = "100%" alt="afbeelding"></center>
+								<hr>
+								<p>Gebruik de muis zoals aangegeven op bovenstaande afbeelding.</br></br>De opties zijn:</br></br>- met het muiswiel kun je in- en uit-zoomen.</br>- met de linkermuisknop kun je roteren.</br>- met de rechtermuisknop kun je pannen/verschuiven.</br>- met een dubbelklik kun je inzoomen en centreren rond dat geprikte punt.</p>
+							</div>
+
+							<!-- #3 Kleurenweergave -->
+							<div class="carousel-item " id="carousel_3">								
+								<hr>
+								<p style="height:100px">Middels het kwast-icoon kan de weergave ingesteld worden van de puntenwolk. Er kan een schaduw-effect (EDL licht) worden ingesteld, puntkwaliteit, punt kleuren (kleur, intensiteit, hoogte, mix).</br></br>Van de hoogte is ook het hoogtebereik aan te passen.</p>
+							</div>
+
+							<!-- #4 Meten -->
+							<div class="carousel-item " id="carousel_4">								
+								<hr>
+								<p style="height:100px">Middels het kwast icoon kan er gekozen worden voor diverse meet methoden zoals een hoogtepunt, afstandmaat, hoogteverschil of polygoon.</br></br>Ook is er een optie om de metingen te verwijderen.</p>
+							</div>
+
+							<!-- #5 Meten Punthoogte -->
+							<div class="carousel-item " id="carousel_5">								
+								<hr>
+								<p style="height:100px">Met de meetoptie "Punthoogte" kan een hoogte (Z-waarde) van een punt worden weergegeven.</br></br>De metingen zijn ook te downloaden naar DXF zodat ze in een CAD of GIS pakket gebruikt kunnen worden. De hoogtes worden als tekst weergegeven.</p>
+							</div>
+
+							<!-- #6 Meten Lijn -->
+							<div class="carousel-item " id="carousel_6">								
+								<hr>
+								<p style="height:100px">Met de meetoptie "Afstand" kan een 3D lijn getekend worden over meerder puntenwolk-punten.</br>Met een rechtermuisklik wordt het lijn-commando afgesloten.</br></br>De metingen zijn ook te downloaden naar DXF zodat ze in een CAD of GIS pakket gebruikt kunnen worden. De lijnen worden als 3D-lijn weergegeven.</p>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button id="prevBtn" type="button" class="btn btn-secondary" onclick="stepCarousel('prev')">Vorige</button>
+				<button id="nextBtn" type="button" class="btn btn-primary" onclick="stepCarousel('next')">Volgende</button>
+			</div>
+		</div>
 	</div>
+</div>
+
+
+
+
+<script src="js/loadpointcloud.js"></script>
+<script src="js/pxpFuncties.js"></script>
+<script src="js/addLeafletMap.js"></script>
+
+<script>
+
+	// ------------------------------------------------------
+
+
+window.viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
+
+viewer.setFOV(60);
+viewer.setPointBudget(4*1000*1000);
+viewer.setEDLEnabled(false);
+viewer.setBackground("gradient"); // ["skybox", "gradient", "black", "white"];
+viewer.loadSettingsFromURL();
+
+
+    //Potree.loadPointCloud("assets/PUNTENWOLK_N395/cloud.js", "pointcloud", e => {
+    //Potree.loadPointCloud("assets/PUNTENWOLK_N395/cloud.js", "pointcloud", async function(e){
+	Potree.loadPointCloud("./pointclouds/portal/metadata.json", "portal", e => {
+    let pointcloud = e.pointcloud;
+    let material = pointcloud.material;
+    viewer.scene.addPointCloud(pointcloud);
+	viewer.setPointBudget(4*1000*1000);
+    //material.pointColorType = Potree.PointColorType.RGB; // any Potree.PointColorType.XXXX
+	//material.activeAttributeName = "intensity gradient"; // elevation, intensity gradient, RGB and Elevation, rgba, composite, intensity, matcap, classification, gps-time
+    material.activeAttributeName = "rgba"; 
+	material.size = 0.5; // puntgrootte
+    material.pointSizeType = Potree.PointSizeType.ADAPTIVE; // FIXED, ADAPTIVE, ATTENUATED
+    material.shape = Potree.PointShape.CIRCLE; // SQUARE
 	
-	<script>
-	
-		window.viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
-		
-		viewer.setEDLEnabled(true);
-		viewer.setFOV(60);
-		viewer.setPointBudget(2_000_000);
-		<!-- INCLUDE SETTINGS HERE -->
-		viewer.loadSettingsFromURL();
-		
-		viewer.setDescription("");
-		
-		viewer.loadGUI(() => {
-			viewer.setLanguage('en');
-			$("#menu_appearance").next().show();
-			$("#menu_tools").next().show();
-			$("#menu_clipping").next().show();
-			viewer.toggleSidebar();
-		});
-		
+    viewer.fitToScreen();
+
+
+});
+
+
+
+var XYZPTstart = getCameraXYZPT();
+var XYZPTend = getCameraXYZPT();
+var deltabetween = [0, 0, 0, 0, 0];
+var flyTimer;
+
+function getCameraXYZPT(){
+    return {x: viewer.scene.view.position.x,
+        y: viewer.scene.view.position.y,
+        z: viewer.scene.view.position.z,
+        yaw: viewer.scene.view.yaw,
+        pitch: viewer.scene.view.pitch}
+}
+
+function flyTo(endpt,steps,tottime){
+    XYZPTstart = getCameraXYZPT();
+    XYZPTend = endpt;
+    flyTimer = setInterval(stepflyTo,tottime/steps);
+    setTimeout(function(){ clearTimeout(flyTimer); }, tottime);
+
+    deltabetween[0] = (XYZPTend.x - XYZPTstart.x)/steps;
+    deltabetween[1] = (XYZPTend.y - XYZPTstart.y)/steps;
+    deltabetween[2] = (XYZPTend.z - XYZPTstart.z)/steps;
+    deltabetween[3] = (XYZPTend.yaw - XYZPTstart.yaw)/steps;
+    deltabetween[4] = (XYZPTend.pitch - XYZPTstart.pitch)/steps;
+}
+
+function stepflyTo(){
+    viewer.scene.view.position.x += deltabetween[0];
+    viewer.scene.view.position.y += deltabetween[1];
+    viewer.scene.view.position.z += deltabetween[2];
+    viewer.scene.view.yaw += deltabetween[3];
+    viewer.scene.view.pitch += deltabetween[4];
+}
+
+
+
+// -------------------------------------------------------
+
+
+
+// ALGEMEEN
+var mouse = {x: 0, y: 0, doUse: false};
+
+let measuringTool = new Potree.MeasuringTool(viewer);
+var mapshow = true;
+var lookAtPtNum = null;
+var lastLookAtPt = [0,0,0];
+
+
+
+//initScene();
+//initClippingTool();
+
+
+// --------------------------------------------------- METEN ---------------------------------------------------
+
+function measPoint(){
+    let measurement = measuringTool.startInsertion({
+        showDistances: false,
+        showAngles: false,
+        showCoordinates: true,
+        showArea: false,
+        closed: true,
+        maxMarkers: 1,
+        name: 'Point'});
 		
 
-		Potree.loadPointCloud("./pointclouds/Leidschendam/metadata.json", "Leidschendam", e => {
-			let scene = viewer.scene;
-			let pointcloud = e.pointcloud;
-			
-			let material = pointcloud.material;
-			material.size = 1;
-			material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
-			material.shape = Potree.PointShape.SQUARE;
-			material.activeAttributeName = "rgba";
-			
-			scene.addPointCloud(pointcloud);
-			
-			viewer.fitToScreen();
-		});
+	// marker_dropped should be fired every time the point location is changed
+	measurement.addEventListener('marker_dropped', (e) => {console.log("Punt geplaatst: einde meting",e.measurement)}); // AANGEPAST
 
+}
+
+function measDistance(){
+    let measurement = measuringTool.startInsertion({
+        showDistances: true,
+        showArea: false,
+        closed: false,
+        name: 'Distance'});
 		
+
+	// marker_dropped should be fired every time the point location is changed
+	measurement.addEventListener('marker_dropped', (e) => {console.log("Lijnpunt toegevoegd",e.measurement)}); // AANGEPAST		
+}
+
+function measHeight(){
+    let measurement = measuringTool.startInsertion({
+        showDistances: false,
+        showHeight: true,
+        showArea: false,
+        closed: false,
+        maxMarkers: 2,
+        name: 'Height'});
+}
+
+function measAngle(){
+    let measurement = measuringTool.startInsertion({
+        showDistances: false,
+        showAngles: true,
+        showArea: false,
+        closed: true,
+        maxMarkers: 3,
+        name: 'Angle'});
+}
+
+
+function measPolygoon(){
+    let measurement = measuringTool.startInsertion({
+        showDistances: false,
+        showAngles: false,
+        showArea: true,
+        closed: true,
+        name: 'Area'});
 		
-	</script>
+
+	// marker_dropped should be fired every time the point location is changed
+	measurement.addEventListener('marker_dropped', (e) => {console.log("Polygoonpunt toegevoegd",e.measurement)}); // AANGEPAST	
+	
+	measurement.addEventListener('measurement_added', (e) => {console.log("Polygoon KLAARRRRRRRRR",e.measurement)}); // AANGEPAST	
+		
+}
+
+
+function measClear(){
+    viewer.scene.removeAllMeasurements();
+    lookAtPtNum = null;
+    $('#filterbtn').removeClass('buttonfgclicked');
+    $('#lookatbtn').removeClass('buttonfgclicked');
+
+    $('#lookAtFilter').hide();
+    $('#toggleLookAtPtVisible').hide();
+}
+
+function measLookAt(){
+    if(lookAtPtNum!=null){
+        viewer.scene.measurements[lookAtPtNum].visible= false;
+        lookAtPtNum = null;
+        var lastLookAtPt = [0,0,0];
+        $('#lookAtFilter').hide();
+        $('#toggleLookAtPtVisible').hide();
+        $('#lookatbtn').removeClass('buttonfgclicked');
+        $('#filterbtn').addClass('buttonfgclicked');
+    }
+    else {
+        lookAtPtNum = viewer.scene.measurements.length;
+        let measurement = measuringTool.startInsertion({
+            showDistances: false,
+            showAngles: false,
+            showCoordinates: false,
+            showArea: false,
+            closed: true,
+            maxMarkers: 1,
+            name: 'Point'
+        });
+
+        viewer.scene.measurements[lookAtPtNum].children[3].material.color.setRGB(255, 0, 255);
+        $('#lookAtFilter').show();
+        $('#toggleLookAtPtVisible').show();
+        $('#lookatvisible').addClass('buttonfgclicked');
+        $('#lookatbtn').addClass('buttonfgclicked');
+        $('#cameraicon').addClass('buttonfgclicked');
+        $('#filterbtn').addClass('buttonfgclicked');
+    }
+}
+
+
+
+// --------------------------------------------------- DIVERSEN ---------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// ------------------------------------------------------
+
+	
+	// INSTELLINGEN
+	viewer.useHQ = true;
+	$('#btnHQ').addClass('buttonfgclicked'); // geselecteerde afbeelding	
+	viewer.useEDL = false;
+	$('#btnlightbulb').removeClass('buttonfgclicked'); // niet-geselecteerde afbeelding
+
+
+    var cmap=Potree.Gradients["RAINBOW"];
+    $('#lookAtFilter').hide();
+    $('#toggleLookAtPtVisible').hide();
 	
 	
-  </body>
+	$('#toggleLookAtPtVisible').hide();
+
+    function stepCarousel(stepdir){
+        $('#carouselExampleIndicators').carousel(stepdir);
+    }
+
+    $('#carouselExampleIndicators').on('slide.bs.carousel', function (ev) {
+        var id = ev.relatedTarget.id;
+        var str='';
+        switch (id) {
+            case "carousel_1":
+                str = '(1/6) - Intro';
+                break;
+            case "carousel_2":
+                str = '(2/6) - Navigeren';
+                break;
+            case "carousel_3":
+                str = '(3/6) - Kleurenweergave';
+                break;
+            case "carousel_4":
+                str = '(4/6) - Meten';
+                break;
+            case "carousel_5":
+                str = '(5/6) - Meten "Punthoogte"';
+                break;
+            case "carousel_6":
+                str = '(6/6) - Meten "Lijn"';
+                break;
+            default:
+            //the id is none of the above 11/9/12/10 = 9/10/11/12
+        }
+        $('#helpsubtitle').text(str);
+    })
+
+    $('#toggleimage').on('click', function (e) {
+        if(camsvisible){
+            if (cameraplaneview) {
+                imageplane.visible = false;
+            }
+            else {
+                turnImagesOff();
+            }
+            camsvisible = false;
+            $('#cameraicon').removeClass('buttonfgclicked');
+        }
+        else {
+            if (cameraplaneview) {
+                imageplane.visible = true;
+            }
+            else {
+                turnImagesOn();
+            }
+            camsvisible = true;
+            $('#cameraicon').addClass('buttonfgclicked');
+        }
+    });
+
+    $('#imgleft').on('click', function (e) {
+        currentid--;
+        if (currentid < 0) {
+            currentid = ncams - 1;
+        }
+        var count=0;
+        var flag = true;
+        if (dofilterimages) {
+            while (imageobj[currentid].isFiltered) {
+                currentid--;
+                count++;
+                if (currentid < 0) {
+                    currentid = ncams - 1;
+                }
+                if (count > ncams) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if (flag) {
+            flyToCam(currentid);
+        }
+    });
+
+    $('#imgright').on('click', function (e) {
+
+        currentid++;
+        if (currentid>(ncams-1)){currentid=0;}
+
+        var count=0;
+        var flag = true;
+        if (dofilterimages) {
+            while (imageobj[currentid].isFiltered) {
+                currentid++;
+                count++;
+                if (currentid > (ncams - 1)) {
+                    currentid = 0;
+                }
+
+                if (count > ncams) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if (flag) {
+            flyToCam(currentid);
+        }
+
+    });
+
+    $('#measPoint').on('click', measPoint);
+    $('#measDistance').on('click', measDistance);
+    $('#measHeight').on('click', measHeight);
+    $('#measAngle').on('click', measAngle);
+	$('#measPolygoon').on('click', measPolygoon);	
+    $('#measClear').on('click', measClear);
+    $('#measLookAt').on('click', measLookAt);
+    $('#lookAtFilter').on('click', toggleFilterImages);
+    $('#toggleLookAtPtVisible').on('click', toggleLookAtPtVisible);
+
+
+
+    $('#togglemap').on('click', togglemap);
+
+    $('#btntogglelighting').on('click', toggleEDL);
+    $('#btntoggleHQ').on('click', toggleHQ);
+
+    $('#btnRGB').on('click', colorbyRGB);
+    $('#btnBoth').on('click', colorbyBoth);
+    $('#btnElev').on('click', colorbyElev);
+	$('#btnIntensiteit').on('click', colorbyIntensiteit);
+	
+
+    $('#btnColormap1').on('click', changeColormap);
+    $('#btnColormap2').on('click', changeColormap);
+    $('#btnColormap3').on('click', changeColormap);
+    $('#btnColormap4').on('click', changeColormap);
+    $('#btnColormap5').on('click', changeColormap);
+    $('#btnColormap6').on('click', changeColormap);
+    $('#btnColormap7').on('click', changeColormap);
+	
+	
+	
+
+    function toggleLookAtPtVisible() {
+        if (viewer.scene.measurements[lookAtPtNum].visible){
+            viewer.scene.measurements[lookAtPtNum].visible = false;
+            $('#lookatvisible').removeClass('buttonfgclicked');
+        }
+        else {
+            viewer.scene.measurements[lookAtPtNum].visible = true;
+            $('#lookatvisible').addClass('buttonfgclicked');
+        }
+
+    }
+
+    function toggleFilterImages(){
+        if (dofilterimages){
+            dofilterimages = false;
+            turnImagesOn();
+            if (!camsvisible){
+                turnImagesOff();
+            }
+            else {
+                turnImagesOn();
+                $('#cameraicon').addClass('buttonfgclicked');
+            }
+            $('#filterbtn').removeClass('buttonfgclicked');
+        }
+        else {
+            dofilterimages = true;
+            filterImages();
+            $('#cameraicon').addClass('buttonfgclicked');
+
+            if (cameraplaneview){
+                if (!camsvisible){
+                    turnImagesOff();
+                }
+                else {
+                    turnImagesOff();
+                    $('#cameraicon').addClass('buttonfgclicked');
+                }
+                $('#cameraicon').removeClass('buttonfgclicked');
+            }
+            $('#filterbtn').addClass('buttonfgclicked');
+        }
+    }
+    function toggleEDL(){
+        if (viewer.useEDL){
+            viewer.useEDL = false;
+            $('#btnlightbulb').removeClass('buttonfgclicked');
+        }
+        else {
+            viewer.useEDL = true;
+            $('#btnlightbulb').addClass('buttonfgclicked');
+
+        }
+    }
+
+	// AANGEPAST
+    function toggleHQ(){
+        if (viewer.useHQ){
+            viewer.useHQ = false;
+			viewer.setPointBudget(1*1000*1000);
+			viewer.setPointSize(1);
+            $('#btnHQ').removeClass('buttonfgclicked');
+        }
+        else {
+            viewer.useHQ = true;
+			viewer.setPointBudget(4*1000*1000);
+			viewer.setPointSize(0.5);
+            $('#btnHQ').addClass('buttonfgclicked');
+        }
+    }
+
+    function changeColormap(){
+        switch(this.id){
+            case "btnColormap1":
+                cmap = Potree.Gradients["GRAYSCALE"];
+                break;
+            case "btnColormap2":
+                cmap = Potree.Gradients["INFERNO"];
+                break;
+            case "btnColormap3":
+                cmap = Potree.Gradients["PLASMA"];
+                break;
+            case "btnColormap4":
+                cmap = Potree.Gradients["RAINBOW"];
+                break;
+            case "btnColormap5":
+                cmap = Potree.Gradients["SPECTRAL"];
+                break;
+            case "btnColormap6":
+                cmap = Potree.Gradients["VIRIDIS"];
+                break;
+            case "btnColormap7":
+                cmap = Potree.Gradients["YELLOW_GREEN"];
+                break;
+        }
+        viewer.scene.pointclouds[0].material.gradient = cmap;
+    }
+
+    function colorbyRGB(){
+        //viewer.scene.pointclouds.forEach( pc => pc.material.pointColorType = Potree.PointColorType.RGB );
+		viewer.scene.pointclouds.forEach( pc => pc.material.activeAttributeName = "rgba");
+        $( "#sliderColorBlend" ).slider('value',0);
+        $( "#colorblendValue" ).val(0);
+        viewer.scene.pointclouds[0].material.weightElevation = 0;
+        viewer.scene.pointclouds[0].material.weightRGB = 1;
+    }
+    function colorbyElev(){
+        //viewer.scene.pointclouds.forEach( pc => pc.material.pointColorType = Potree.PointColorType.ELEVATION );
+		viewer.scene.pointclouds.forEach( pc => pc.material.activeAttributeName = "elevation");
+        $( "#sliderColorBlend" ).slider('value',100);
+        $( "#colorblendValue" ).val(100);
+        viewer.scene.pointclouds[0].material.weightElevation = 1;
+        viewer.scene.pointclouds[0].material.weightRGB = 0;
+    }
+    function colorbyBoth() {
+        //viewer.scene.pointclouds.forEach(pc => pc.material.pointColorType = Potree.PointColorType.COMPOSITE);
+		viewer.scene.pointclouds.forEach( pc => pc.material.activeAttributeName = "composite");
+        $( "#sliderColorBlend" ).slider('value',50);
+        $( "#colorblendValue" ).val(50);
+        viewer.scene.pointclouds[0].material.weightElevation = 50/100;
+        viewer.scene.pointclouds[0].material.weightRGB = 50/100;
+    }
+	// TOEGEVOEGD
+    function colorbyIntensiteit() {
+		viewer.scene.pointclouds.forEach( pc => pc.material.activeAttributeName = "intensity gradient");
+    }
+
+
+    function togglemap(){
+        if (mapshow){
+            $('#mapcontainer').hide();
+            mapshow = false;
+            $('#mapbutton').removeClass('buttonfgclicked');
+        }
+        else {
+            $('#mapcontainer').show();
+            mapshow = true;
+            $('#mapbutton').addClass('buttonfgclicked');
+        }
+
+    }
+	
+    $('#mapcontainer').on('click',triggermapresize);
+    function triggermapresize(){
+        mymap.invalidateSize();
+    }
+
+    $('.keep-open').on({
+        "shown.bs.dropdown": function() { $(this).attr('closable', false); },
+        "hide.bs.dropdown":  function() { return $(this).attr('closable') == 'true'; }
+    });
+
+    $('#measheader').on({
+        "click": function() {
+            $('.keep-open').attr('closable', true );
+            $(this).parent().attr('closable', true );
+        }
+    });
+
+    $('#appearanceheader').on({
+        "click": function() {
+            $('.keep-open').attr('closable', true );
+            $(this).parent().attr('closable', true );
+        }
+    });
+
+    $('#downloadheader').on({
+        "click": function() {
+            $('.keep-open').attr('closable', true );
+            $(this).parent().attr('closable', true );
+        }
+    });
+
+
+    $('.keep-open .nav-link').on({
+        "click": function() {
+            $('.keep-open').attr('closable', true );
+            $(this).parent().attr('closable', true );
+        }
+    });
+
+    var zlimits = [-0.8, 19.1];
+    $( "#minval" ).val( 0 );
+    $( "#maxval" ).val( 15 );
+
+    $( function() {
+        $( "#slider-range" ).slider({
+            range: true,
+            min: Math.floor(zlimits[0]*10)/10,
+            max: Math.ceil(zlimits[1]*10)/10,
+            values: [ Math.floor(zlimits[0]*10)/10, Math.ceil(zlimits[1]*10)/10 ],
+            step: 0.1,
+            slide: function( event, ui ) {
+                $( "#minval" ).val( ui.values[ 0 ]);
+                $( "#maxval" ).val( ui.values[ 1 ]);
+                viewer.scene.pointclouds[0].material.elevationRange = [ui.values[ 0 ], ui.values[ 1 ]];
+            }
+        });
+    } );
+    $( function() {
+        $( "#sliderColorBlend" ).slider({
+            range: false,
+            min: 0,
+            max: 100,
+            value: 0,
+            step: 5,
+            slide: function( event, ui ) {
+                $( "#colorblendValue" ).val( ui.value);
+                viewer.scene.pointclouds[0].material.weightElevation = ui.value/100;
+                viewer.scene.pointclouds[0].material.weightRGB = 1-ui.value/100;
+                viewer.scene.pointclouds.forEach(pc => pc.material.pointColorType = Potree.PointColorType.COMPOSITE);
+            }
+            }
+        );
+    } );
+    $( function() {
+        $( "#sliderImageOpacity" ).slider({
+                range: false,
+                min: 0,
+                max: 100,
+                value: 100,
+            slide: function( event, ui ) {
+                $( "#sliderImageOpacityValue" )
+                    .val( ui.value.toString() + '%');
+                imageplane.children[0].material.opacity = ui.value/100;
+            }
+            }
+        );
+    } );
+
+    $( function() {
+        $( "#sliderPointBudget" ).slider({
+                range: false,
+                min: 1000000,
+                max: 10000000,
+                value: 1000000,
+                step: 500000,
+            slide: function( event, ui ) {
+                $( "#sliderPointBudgetValue" )
+                    .val( (ui.value/1000000).toString() + 'M');
+                viewer.setPointBudget(ui.value);
+            }
+            }
+        );
+    } );
+
+	/*
+    viewer.minNodeSize = 50;
+    $( function() {
+        $( "#sliderPointSize" ).slider({
+                range: false,
+                min: 0,
+                max: 400,
+                value: 50,
+            slide: function( event, ui ) {
+                $( "#sliderPointSizeValue" )
+                    .val( ui.value);
+                viewer.minNodeSize = ui.value;
+            }
+            }
+        );
+    } );
+	*/
+
+	// AANGEPAST
+    viewer.minNodeSize = 0.5;
+    $( function() {
+        $( "#sliderPointSize" ).slider({
+                range: false,
+                min: 0.1,
+                max: 5.0,
+                value: 0.5,
+            slide: function( event, ui ) {
+                $( "#sliderPointSizeValue" )
+                    .val( ui.value);
+                //viewer.minNodeSize = ui.value;
+				//viewer.setMinNodeSize();
+				viewer.setPointSize(ui.value);
+            }
+            }
+        );
+    } );
+
+    // FUNCTION TO GET COLORMAPS TO MAKE IMAGE OF THEM
+    function printColorMap(){
+        var j=0;
+        for(j=0;j<7;j++) {
+            switch(j){
+                case 0:
+                    cmap = Potree.Gradients["GRAYSCALE"];
+                    break;
+                case 1:
+                    cmap = Potree.Gradients["INFERNO"];
+                    break;
+                case 2:
+                    cmap = Potree.Gradients["PLASMA"];
+                    break;
+                case 3:
+                    cmap = Potree.Gradients["RAINBOW"];
+                    break;
+                case 4:
+                    cmap = Potree.Gradients["SPECTRAL"];
+                    break;
+                case 5:
+                    cmap = Potree.Gradients["VIRIDIS"];
+                    break;
+                case 6:
+                    cmap = Potree.Gradients["YELLOW_GREEN"];
+                    break;
+            }
+
+            var i;
+            var strout = '';
+            nelements = cmap.length;
+            for (i = 0; i < nelements; i++) {
+                strout = strout + '\n' + (cmap[i][0].toString() + ',' + cmap[i][1].r.toString() + ',' + cmap[i][1].g.toString() + ',' + cmap[i][1].b.toString());
+            }
+            console.log(strout);
+
+        }
+    }
+	
+	
+</script>
+
+
+</body>
 </html>
